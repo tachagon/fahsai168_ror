@@ -1,0 +1,147 @@
+th:
+
+# -------------------------------------------------------------------
+
+  will_paginate:
+    previous_label: "&#8592; ก่อนหน้า"
+    next_label: "ถัดไป &#8594;"
+
+# -------------------------------------------------------------------
+  date:
+    abbr_day_names:
+      - อา
+      - จ
+      - อ
+      - พ
+      - พฤ
+      - ศ
+      - ส
+    abbr_month_names:
+      -
+      - ม.ค.
+      - ก.พ.
+      - มี.ค.
+      - เม.ย.
+      - พ.ค.
+      - มิ.ย.
+      - ก.ค.
+      - ส.ค.
+      - ก.ย.
+      - ต.ค.
+      - พ.ย.
+      - ธ.ค.
+    day_names:
+      - อาทิตย์
+      - จันทร์
+      - อังคาร
+      - พุธ
+      - พฤหัสบดี
+      - ศุกร์
+      - เสาร์
+    formats:
+      default: "%d-%m-%Y"
+      long: "%d %B %Y"
+      short: "%d %b"
+    month_names:
+      -
+      - มกราคม
+      - กุมภาพันธ์
+      - มีนาคม
+      - เมษายน
+      - พฤษภาคม
+      - มิถุนายน
+      - กรกฎาคม
+      - สิงหาคม
+      - กันยายน
+      - ตุลาคม
+      - พฤศจิกายน
+      - ธันวาคม
+    order:
+      - :day
+      - :month
+      - :year
+
+# -------------------------------------------------------------------
+  time:
+    am: ก่อนเที่ยง
+    pm: หลังเที่ยง
+    formats:
+      default: "%a %d %b %Y %H:%M:%S %z"
+      long: "%-d %B %Y %H:%M น."
+      short: "%-d %b %H:%M น."
+
+# -------------------------------------------------------------------
+  datetime:
+    distance_in_words:
+      about_x_hours: "ประมาณ %{count} ชั่วโมง"
+      about_x_months: "ประมาณ %{count} เดือน"
+      about_x_years: "ประมาณ %{count} ปี"
+      almost_x_years: "ประมาณ %{count} ปี"
+      half_a_minute: "ครึ่งนาที"
+      less_than_x_minutes: "น้อยกว่า %{count} นาที"
+      less_than_x_seconds: "น้อยกว่า %{count} วินาที"
+      over_x_years: "มากกว่า %{count} ปี"
+      x_days: "%{count} วัน"
+      x_minutes: "%{count} นาที"
+      x_months: "%{count} เดือน"
+      x_seconds: "%{count} วินาที"
+    prompts:
+      day: "วัน"
+      hour: "ชั่วโมง"
+      minute: "นาที"
+      month: "เดือน"
+      second: "วินาที"
+      year: "ปี"
+
+# -------------------------------------------------------------------
+  activerecord:
+    attributes:
+      user:
+        member_code: "รหัสสมาชิก"
+        f_name: "ชื่อ"
+        l_name: "นามสกุล"
+        address: "ที่อยู่"
+        city: "อำเภอ"
+        state: "จังหวัด"
+        postal_code: "รหัสไปรษณีย์"
+        email: "อีเมล"
+        phone: "เบอร์โทรศัพท์"
+        line: "Line ID"
+        role: "บทบาท"
+        position: "ตำแหน่ง"
+        password: "รหัสผ่าน"
+        password_confirmation: "ยืนยันรหัสผ่าน"
+        iden_num: "เลขประจำตัวประชาชน"
+      position:
+        name: "ชื่อตำแหน่ง"
+        layer: "ลำดับชั้นผลประโยชน์"
+        min_pv: "คะแนนขั้นต่ำ"
+
+    errors:
+      format: "%{attribute} %{message}"
+      messages:
+        accepted: "จะต้องได้รับการยอมรับ"
+        blank: "ต้องระบุข้อมูล"
+        present: "จะต้องว่างเปล่า"
+        confirmation: "ไม่ตรงกับ %{attribute}"
+        empty: "ต้องไม่ว่างเปล่า"
+        equal_to: "ต้องเท่ากับ %{count}"
+        even: "ต้องเป็นจำนวนคู่"
+        exclusion: "ถูกสงวนไว้"
+        greater_than: "ต้องมากกว่า %{count}"
+        greater_than_or_equal_to: "ต้องมากกว่าหรือเท่ากับ %{count}"
+        inclusion: "ไม่ได้อยู่ในรายการที่สามารถใช้ได้"
+        invalid: "รูปแบบไม่ถูกต้อง"
+        less_than: "ต้องน้อยกว่า %{count}"
+        less_than_or_equal_to: "ต้องน้อยกว่าหรือเท่ากับ %{count}"
+        model_invalid: "การตรวจสอบล้มเหลว: %{errors}"
+        not_a_number: "ต้องเป็นตัวเลข"
+        not_a_integer: "ต้องเป็นจำนวนเต็ม"
+        odd: "ต้องเป็นจำนวนคี่"
+        required: "จะต้องระบุ"
+        taken: "ถูกนำไปใช้แล้ว"
+        too_long: "ความยาวต้องไม่เกิน %{count} ตัวอักษร"
+        too_short: "ความยาวต้องมากกว่า %{count} ตัวอักษร"
+        wrong_length: "ควรมีความยาว %{count} ตัวอักษร"
+        other_than: "ควรมากกว่า %{count}"
+        record_invalid: "ข้อมูลไม่ถูกต้อง: %{errors}"
