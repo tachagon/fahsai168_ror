@@ -1,14 +1,20 @@
 class User < ActiveRecord::Base
 
-  after_initialize :set_default_password, if: "password.nil?"
+  after_initialize :set_default_password, if: :new_record?
 
   belongs_to :position
 
   attr_accessor :remember_token
 
   before_save{email.downcase! unless email.nil?}
+  before_save{member_code.downcase!}
 
-  validates :member_code, presence: true, length: {maximum: 50}
+
+  validates :member_code,
+          presence: true,
+          length: {maximum: 50},
+          uniqueness: {case_sensitive: false}
+
   validates :f_name, presence: true, length: {maximum: 100}
   validates :l_name, presence: true, length: {maximum: 100}
   validates :address, length: {maximum: 255}
@@ -44,6 +50,8 @@ class User < ActiveRecord::Base
   has_secure_password
     validates :password, presence: true, length: {minimum: 4}, allow_nil: true
 
+  # validate :set_default_password
+
   # Returns the hash digest of the given string.
   def self.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
@@ -75,28 +83,33 @@ class User < ActiveRecord::Base
 
   private
     def set_default_password
-      password = self.iden_num.split(//).last(4).join
-      self.password = password
-      self.password_confirmation = password
+      if self.password.blank? && !self.iden_num.blank?
+        password = self.iden_num.split(//).last(4).join
+        self.password = password
+        self.password_confirmation = password
+      end
     end
 
     def iden_num_format
-      iden_num_i = self.iden_num.split(//).map(&:to_i)
-      x = 0
+      unless self.iden_num.blank?
+        iden_num_i = self.iden_num.split(//).map(&:to_i)
+        x = 0
 
-      for i in 1..(iden_num_i.count-1)
-        x += (14-i)*iden_num_i[i-1]
-      end
-      x = x%11
+        for i in 1..(iden_num_i.count-1)
+          x += (14-i)*iden_num_i[i-1]
+        end
+        x = x%11
 
-      if x <= 1
-        unless iden_num_i[iden_num_i.count-1] == (1-x)
-          errors.add(:iden_num, "รูปแบบเลขประจำตัวประชาชนไม่ถูกต้อง")
+        if x <= 1
+          unless iden_num_i[iden_num_i.count-1] == (1-x)
+            errors.add(:iden_num, "รูปแบบเลขประจำตัวประชาชนไม่ถูกต้อง")
+          end
+        else
+          unless iden_num_i[iden_num_i.count-1] == (11-x)
+            errors.add(:iden_num, "รูปแบบเลขประจำตัวประชาชนไม่ถูกต้อง")
+          end
         end
-      else
-        unless iden_num_i[iden_num_i.count-1] == (11-x)
-          errors.add(:iden_num, "รูปแบบเลขประจำตัวประชาชนไม่ถูกต้อง")
-        end
+
       end
 
     end

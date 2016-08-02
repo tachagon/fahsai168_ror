@@ -5,12 +5,24 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+  <%= render 'layouts/shim' %>
 </head>
 <body class="main">
 
 <%= render partial: 'layouts/navbar' %>
 
-<%= yield %>
+<div class="container-fluid">
+  <div class="row">
+    <%= render 'layouts/alert' %>
+    <%= yield %>
+  </div>
+</div>
 
+<% if logged_in? %>
+  <h1>เข้าสู่ระบบ</h1>
+  <a href="<%= logout_path %>" rel="nofollow" data-method="delete">
+    <i class="fa fa-sign-out"></i> ออกจากระบบ
+  </a>
+<% end %>
 </body>
 </html>

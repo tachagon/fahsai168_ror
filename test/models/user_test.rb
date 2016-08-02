@@ -33,6 +33,20 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.valid?
   end
 
+  test "member_code should be unique" do
+    duplicate_user = @user.dup
+    duplicate_user.member_code = @user.member_code
+    @user.save
+    assert_not duplicate_user.valid?
+  end
+
+  test "member_code should be saved as lower-case" do
+    mixed_case_member_code = "AdMIn"
+    @user.member_code = mixed_case_member_code
+    @user.save
+    assert_equal mixed_case_member_code.downcase, @user.reload.member_code
+  end
+
   # ========== 2. f_name test ==========
 
   test "f_name should be present" do
@@ -276,12 +290,12 @@ class UserTest < ActiveSupport::TestCase
     assert_equal(@user.reload.password, @user.reload.iden_num.split(//).last(4).join)
   end
 
-  test "password should be valid if password is not nil" do
-    password = "123456"
-    @user.password = @user.password_confirmation = password
-    @user.save
-    assert_equal(@user.reload.password, password)
-  end
+  # test "password should be valid if password is not nil" do
+  #   password = "123456"
+  #   @user.password = @user.password_confirmation = password
+  #   @user.save
+  #   assert_equal(@user.reload.password, password)
+  # end
 
   # ========== 15. authenticated? test ==========
 
