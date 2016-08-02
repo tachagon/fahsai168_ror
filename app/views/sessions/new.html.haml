@@ -1,0 +1,25 @@
+- provide(:title, "เข้าสู่ระบบ")
+
+.row
+  .col-sm-8.col-sm-offset-2.col-md-6.col-md-offset-3
+
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title เข้าสู่ระบบ
+      .panel-body
+
+        = form_for(:session, url: login_path) do |f|
+
+          .form-group.label-floating
+            = f.label :member_code, 'รหัสสมาชิก', class: 'control-label'
+            = f.text_field :member_code, class: 'form-control', required: true
+
+          .form-group.label-floating
+            = f.label :password, "รหัสผ่าน", class: 'control-label'
+            = f.password_field :password, class: 'form-control', required: true
+
+          = f.label :remember_me do
+            = f.check_box :remember_me
+            %span จำการเข้าสู่ระบบ
+
+          = f.submit "เข้าสู่ระบบ", class: "btn btn-primary btn-block"
