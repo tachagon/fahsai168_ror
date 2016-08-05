@@ -1,0 +1,16 @@
+<% if object.errors.any? %>
+  <div id="error_explanation">
+    <div class="alert alert-danger">
+      <% if I18n.locale == :en %>
+        <%= pluralize(object.errors.count, "error") %>
+      <% else %>
+        <%= object.errors.count %> <%=t 'error' %>
+      <% end %>
+    </div>
+    <ul>
+      <% object.errors.full_messages.each do |msg| %>
+        <li><i class="fa fa-exclamation-circle"></i> <%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

@@ -1,0 +1,32 @@
+- provide(:title, "แก้ไขโปรไฟล์")
+- provide(:user_form_button_text, "แก้ไขโปรไฟล์")
+
+.container
+
+  -# breadcrumb
+  - if current_user.is_admin?
+    = gen_breadcrumb({"หน้าแรก" => root_path, "สมาชิกทั้งหมด" => users_path, "โปรไฟล์ของ#{@user.f_name}" => @user, "แก้ไขโปรไฟล์" => "active"})
+  - else
+    = gen_breadcrumb({"หน้าแรก" => root_path, "โปรไฟล์ของ#{@user.f_name}" => @user, "แก้ไขโปรไฟล์" => "active"})
+
+  .page-header
+    %h1
+      แก้ไขโปรไฟล์
+
+  .col-sm-4.center
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title ภาพโปรไฟล์
+      .panel-body
+
+        = gravatar_for @user, {size: 200}
+        - if current_user?(@user)
+          %a.btn.btn-primary.btn-block{:href => "http://gravatar.com/emails", target: "_blank", rel: "nofollow"}
+            เปลี่ยน
+
+  .col-sm-8
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title.center ข้อมูลโปรไฟล์
+      .panel-body
+        = render 'form'

@@ -5,12 +5,12 @@ class UserTest < ActiveSupport::TestCase
   def setup
     @user = User.new(
       member_code: "1234",
-      f_name: "Tatchagon",
-      l_name: "Koonkoei",
-      phone: "0826810461",
-      role: "member",
-      position: positions(:not),
-      iden_num: "1102001936122"
+      f_name: "firstname",
+      l_name: "lastname",
+      phone: "0923456758",
+      # role: "member",
+      # position: positions(:not),
+      iden_num: "1457032321385"
     )
   end
 
@@ -168,11 +168,22 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.valid?
   end
 
+  test "role should be member as default" do
+    @user.save
+    @user.reload
+    assert_equal(@user.role, "member")
+  end
+
   # ========== 11. position test ==========
 
   test "position should be present" do
     @user.position = nil
     assert_not @user.valid?
+  end
+
+  test "position should default be no position" do
+    @user.save
+    assert_equal(@user.position.name, "no position")
   end
 
   # ========== 12. iden_num test ==========
@@ -285,7 +296,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "password should be default if password is nil" do
-    @user.iden_num = "1102001936122"
+    @user.iden_num = "1457032321385"
     @user.save
     assert_equal(@user.reload.password, @user.reload.iden_num.split(//).last(4).join)
   end

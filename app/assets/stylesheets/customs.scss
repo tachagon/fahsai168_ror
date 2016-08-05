@@ -7,7 +7,24 @@
   background-color: #fff;
 }
 
-.gravatar {
-  padding: 0;
-  margin: 0;
+// .gravatar {
+//   padding: 0;
+//   margin: 0;
+// }
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+  margin-top: 0;
+}
+
+#error_explanation {
+  ul {
+    list-style: none;
+    display: block;
+    color: red;
+  }
 }

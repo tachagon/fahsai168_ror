@@ -13,4 +13,8 @@ module UsersHelper
     image_tag(gravatar_url, alt: user.f_name, class: "gravatar")
   end
 
+  def role?(user, role)
+    user.role == role
+  end
+
 end

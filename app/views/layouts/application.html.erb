@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><%= full_title(yield(:title)) %></title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
@@ -13,16 +15,22 @@
 
 <div class="container-fluid">
   <div class="row">
+
     <%= render 'layouts/alert' %>
     <%= yield %>
-  </div>
-</div>
 
-<% if logged_in? %>
-  <h1>เข้าสู่ระบบ</h1>
-  <a href="<%= logout_path %>" rel="nofollow" data-method="delete">
-    <i class="fa fa-sign-out"></i> ออกจากระบบ
-  </a>
-<% end %>
+  </div>
+  <!-- ./row -->
+</div>
+<!-- ./container-fluid -->
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    init_material();
+    init_tooltip();
+    $('.field_with_errors').closest(".form-group").addClass('has-error');
+  });
+</script>
+
 </body>
 </html>

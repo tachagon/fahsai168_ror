@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
 
   after_initialize :set_default_password, if: :new_record?
+  after_initialize :set_default_role, if: :new_record?
+  after_initialize :set_default_position, if: :new_record?
 
   belongs_to :position
 
@@ -15,23 +17,6 @@ class User < ActiveRecord::Base
           length: {maximum: 50},
           uniqueness: {case_sensitive: false}
 
-  validates :f_name, presence: true, length: {maximum: 100}
-  validates :l_name, presence: true, length: {maximum: 100}
-  validates :address, length: {maximum: 255}
-  validates :city, length: {maximum: 255}
-  validates :state, length: {maximum: 255}
-  validates :postal_code, length: {maximum: 10}
-
-  VALID_PHONE_REGEX = /\A0\d{8,}\z/
-  validates :phone, presence: true, length: {maximum: 20}, format: {with: VALID_PHONE_REGEX}
-
-  validates :line, length: {maximum: 50}
-
-  def self.all_role ; %w[admin mobile stock member] ; end
-  validates :role, presence: true, inclusion: {in: User.all_role}, allow_nil: true
-
-  validates :position, presence: true
-
   VALID_IDEN_NUM_REGEX = /\A\d{13,13}\z/
   validates :iden_num,
         presence: true,
@@ -41,11 +26,31 @@ class User < ActiveRecord::Base
 
   validate :iden_num_format
 
+  validates :f_name, presence: true, length: {maximum: 100}
+  validates :l_name, presence: true, length: {maximum: 100}
+  validates :address, length: {maximum: 255}
+  validates :city, length: {maximum: 255}
+  validates :state, length: {maximum: 255}
+  validates :postal_code, length: {maximum: 10}
+
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   validates :email, length: {maximum: 255},
         format: { with: VALID_EMAIL_REGEX },
         uniqueness: {case_sensitive: false},
         if: "!email.nil?"
+
+  VALID_PHONE_REGEX = /\A0\d{8,}\z/
+  validates :phone,
+        presence: true,
+        length: {maximum: 20},
+        format: {with: VALID_PHONE_REGEX}
+
+  validates :line, length: {maximum: 50}
+
+  def self.all_role ; %w[admin mobile stock member] ; end
+  validates :role, presence: true, inclusion: {in: User.all_role}, allow_nil: true
+
+  validates :position, presence: true
 
   has_secure_password
     validates :password, presence: true, length: {minimum: 4}, allow_nil: true
@@ -81,12 +86,34 @@ class User < ActiveRecord::Base
       update_attribute(:remember_digest, nil)
   end
 
+  def is_admin?
+    if self.role == "admin"
+      return true
+    else
+      return false
+    end
+  end
+
   private
+
     def set_default_password
       if self.password.blank? && !self.iden_num.blank?
         password = self.iden_num.split(//).last(4).join
-        self.password = password
-        self.password_confirmation = password
+        self.password ||= password
+        self.password_confirmation ||= password
+      end
+    end
+
+    def set_default_role
+      self.role ||= "member"
+    end
+
+    def set_default_position
+      position = Position.find_by_name("no position") || Position.first
+      if position.nil?
+        errors.add(:position, "ไม่สามารถเพิ่มตำแหน่งได้")
+      else
+        self.position = position
       end
     end
 
@@ -102,11 +129,11 @@ class User < ActiveRecord::Base
 
         if x <= 1
           unless iden_num_i[iden_num_i.count-1] == (1-x)
-            errors.add(:iden_num, "รูปแบบเลขประจำตัวประชาชนไม่ถูกต้อง")
+            errors.add(:iden_num, "รูปแบบไม่ถูกต้อง")
           end
         else
           unless iden_num_i[iden_num_i.count-1] == (11-x)
-            errors.add(:iden_num, "รูปแบบเลขประจำตัวประชาชนไม่ถูกต้อง")
+            errors.add(:iden_num, "รูปแบบไม่ถูกต้อง")
           end
         end
 

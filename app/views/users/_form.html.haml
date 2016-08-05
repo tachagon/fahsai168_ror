@@ -1,0 +1,87 @@
+= form_for @user, html: {class: "form-horizontal"} do |f|
+  = render 'shared/error_messages', object: f.object
+
+  -# fill member code
+  .form-group
+    = f.label :member_code, class: "col-md-3 control-label required"
+    .col-md-9
+      = f.text_field :member_code, class: "form-control", required: true
+
+  -# fill idne num
+  .form-group
+    = f.label :iden_num, class: "col-md-3 control-label required"
+    .col-md-9
+      = f.text_field :iden_num, class: "form-control", required: true
+
+  -# fill first name
+  .form-group
+    = f.label :f_name, class: "col-md-3 control-label required"
+    .col-md-9
+      = f.text_field :f_name, class: "form-control", required: true
+
+  -# fill last name
+  .form-group
+    = f.label :l_name, class: "col-md-3 control-label required"
+    .col-md-9
+      = f.text_field :l_name, class: "form-control", required: true
+
+  -# fill address
+  .form-group
+    = f.label :address, class: "col-md-3 control-label"
+    .col-md-9
+      = f.text_area :address, class: "form-control", rows: 3
+
+  -# fill last city
+  .form-group
+    = f.label :city, class: "col-md-3 control-label"
+    .col-md-9
+      = f.text_field :city, class: "form-control"
+
+  -# fill last state
+  .form-group
+    = f.label :state, class: "col-md-3 control-label"
+    .col-md-9
+      = f.text_field :state, class: "form-control"
+
+  -# fill postal_code
+  .form-group
+    = f.label :postal_code, class: "col-md-3 control-label"
+    .col-md-9
+      = f.text_field :postal_code, class: "form-control"
+
+  -# fill email
+  .form-group
+    = f.label :email, class: "col-md-3 control-label"
+    .col-md-9
+      = f.email_field :email, class: "form-control"
+
+  -# fill phone
+  .form-group
+    = f.label :phone, class: "col-md-3 control-label required"
+    .col-md-9
+      = f.telephone_field :phone, class: "form-control", required: true
+
+  -# fill line
+  .form-group
+    = f.label :line, class: "col-md-3 control-label"
+    .col-md-9
+      = f.text_field :line, class: "form-control"
+
+  - if !@user.new_record?
+    -# fill password
+    .form-group
+      = f.label :password, class: "col-md-3 control-label"
+      .col-md-9
+        = f.password_field :password, class: "form-control"
+
+
+    -# fill password_confirmation
+    .form-group
+      = f.label :password_confirmation, class: "col-md-3 control-label"
+      .col-md-9
+        = f.password_field :password_confirmation, class: "form-control"
+
+  = f.submit yield(:user_form_button_text), class: "btn btn-primary btn-block"
+
+:javascript
+  $(".required").append(" *");

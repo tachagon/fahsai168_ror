@@ -1,2 +1,45 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+admin:
+  member_code: tachagon
+  password_digest: <%= User.digest('password') %>
+  f_name: Tatchagon
+  l_name: Koonkoei
+  email: o_k_t@hotmail.com
+  phone: 0826810461
+  role: admin
+  position: not
+  iden_num: 1102001936122
+
+mobile:
+  member_code: 1111
+  password_digest: <%= User.digest('password') %>
+  f_name: Sara
+  l_name: Hamany
+  email: mobile@example.com
+  phone: 0866557527
+  role: mobile
+  position: not
+  iden_num: 8105441216071
+
+stock:
+  member_code: 2222
+  password_digest: <%= User.digest('password') %>
+  f_name: Michel
+  l_name: Scofield
+  email: stock@example.com
+  phone: 0817440648
+  role: stock
+  position: not
+  iden_num: 8507512355531
+
+member:
+  member_code: 3333
+  password_digest: <%= User.digest('password') %>
+  f_name: John
+  l_name: Smith
+  email: member@example.com
+  phone: 034658471
+  role: member
+  position: not
+  iden_num: 8678666288230

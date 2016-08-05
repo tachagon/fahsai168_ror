@@ -1,0 +1,25 @@
+<tr>
+  <td><%= user.member_code %></td>
+  <td><%= user.iden_num %></td>
+  <td><%= link_to "#{user.f_name}  #{user.l_name}", user %></td>
+  <td><%= user.role.capitalize %></td>
+  <td><%= user.position.name.capitalize %></td>
+  <td><%= user.email %></td>
+  <td><%= user.phone %></td>
+  <td><%= user.line %></td>
+  <td>
+    <div class="btn-group btn-group-raised">
+      <a href="<%= user_path(user) %>" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="left" title="ดูโปรไฟล์">
+        <i class="fa fa-eye"></i>
+      </a>
+      <a href="<%= edit_user_path(user) %>" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="left" title="แก้ไขสมาชิก">
+        <i class="fa fa-pencil"></i>
+      </a>
+      <% if current_user.is_admin? && !current_user?(user) %>
+        <a href="<%= user_path(user) %>" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="left" title="ลบสมาชิก" data-method="delete" data-confirm="คุณต้องการลบสมาชิก คุณ<%= user.f_name %>">
+          <i class="fa fa-trash"></i>
+        </a>
+      <% end %>
+    </div>
+  </td>
+</tr>
