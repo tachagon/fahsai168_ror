@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   before_action :correct_user_or_admin, only: [:edit, :update]
   # before_action :not_member_user, only: [:new, :create]
   before_action :empty_email, only: [:create, :update]
-  before_action :admin_only, only: [:index, :destroy]
+  before_action :admin_only, only: [:index, :destroy, :update_role, :update_position]
 
   def index
     @users = User.paginate(page: params[:page])
@@ -44,6 +44,28 @@ class UsersController < ApplicationController
     end
   end
 
+  def update_role
+    @user = User.find_by_id(params[:user_id])
+    if @user.update_attributes(user_role_params)
+      flash[:success] = 'อัปเดทบทบาทสำเร็จ'
+      redirect_to users_path
+    else
+      flash[:danger] = "อัปเดทบทบาทไม่สำเร็จ"
+      redirect_to users_path
+    end
+  end
+
+  def update_position
+    @user = User.find_by_id(params[:user_id])
+    if @user.update_attributes(user_position_id_params)
+      flash[:success] = 'อัปเดทตำแหน่งสำเร็จ'
+      redirect_to users_path
+    else
+      flash[:danger] = "อัปเดทตำแหน่งไม่สำเร็จ"
+      redirect_to users_path
+    end
+  end
+
   def destroy
     @user.destroy
     flash[:success] = "ลบสมาชิกสำเร็จแล้ว"
@@ -68,6 +90,14 @@ class UsersController < ApplicationController
         :line,
         :iden_num
       )
+    end
+
+    def user_role_params
+      params.permit(:role)
+    end
+
+    def user_position_id_params
+      params.permit(:position_id)
     end
 
     def empty_email

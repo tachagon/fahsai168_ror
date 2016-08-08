@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
 
   before_save{email.downcase! unless email.nil?}
   before_save{member_code.downcase!}
+  before_save{role.downcase!}
 
 
   validates :member_code,

@@ -2,8 +2,26 @@
   <td><%= user.member_code %></td>
   <td><%= user.iden_num %></td>
   <td><%= link_to "#{user.f_name}  #{user.l_name}", user %></td>
-  <td><%= user.role.capitalize %></td>
-  <td><%= user.position.name.capitalize %></td>
+  <td>
+    <%= form_tag(user_update_role_path(user), method: :post) do %>
+
+      <%= select_tag :role, options_for_select(['member', 'mobile', 'stock', 'admin'], user.role) %>
+      <button type="submit" class="btn btn-xs btn-warning">
+        <i class="fa fa-pencil"></i>
+      </button>
+
+    <% end %>
+  </td>
+  <td>
+    <%= form_tag(user_update_position_path(user), method: :post) do %>
+
+      <%= select_tag :position_id, options_for_select(Position.all.collect{|p| [p.name, p.id]}, user.position.id) %>
+      <button type="submit" class="btn btn-xs btn-warning">
+        <i class="fa fa-pencil"></i>
+      </button>
+
+    <% end %>
+  </td>
   <td><%= user.email %></td>
   <td><%= user.phone %></td>
   <td><%= user.line %></td>

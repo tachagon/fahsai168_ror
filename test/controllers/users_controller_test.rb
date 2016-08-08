@@ -343,7 +343,82 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   # ===========================================================================
-  # 7. destroy test
+  # 7. update_role test
+  # ===========================================================================
+
+  test "should  redirect update_role when not logged in" do
+    post :update_role, user_id: @member, role: "admin"
+    assert_not flash.empty?
+    assert_redirected_to login_url
+  end
+
+  test "should redirect update_role when not logged in as admin" do
+    log_in_as @member
+    post :update_role, user_id: @member, role: "admin"
+    assert_redirected_to root_url
+  end
+
+  test "should redirect update_role when role not correct" do
+    log_in_as @admin
+    role = @member.role
+    post :update_role, user_id: @member, role: "invalid"
+    assert_not flash.empty?
+    @member.reload
+    assert_not_equal(@member.role, "admin")
+    assert_equal(@member.role, role)
+  end
+
+  test "should redirect update_role when success" do
+    log_in_as @admin
+    role = @member.role
+    post :update_role, user_id: @member, role: "admin"
+    assert_not flash.empty?
+    @member.reload
+    assert_not_equal(@member.role, role)
+    assert_equal(@member.role, "admin")
+  end
+
+  # ===========================================================================
+  # 8. update_position test
+  # ===========================================================================
+
+  test "should  redirect update_position when not logged in" do
+    gold = positions(:gold)
+    post :update_position, user_id: @member, position_id: gold.id
+    assert_not flash.empty?
+    assert_redirected_to login_url
+  end
+
+  test "should redirect update_position when not logged in as admin" do
+    log_in_as @member
+    gold = positions(:gold)
+    post :update_position, user_id: @member, position_id: gold.id
+    assert_redirected_to root_url
+  end
+
+  test "should redirect update_position when role not correct" do
+    log_in_as @admin
+    position_id = @member.position.id
+    post :update_position, user_id: @member, position_id: -1
+    assert_not flash.empty?
+    @member.reload
+    assert_not_equal(@member.position.id, -1)
+    assert_equal(@member.position.id, position_id)
+  end
+
+  test "should redirect update_position when success" do
+    log_in_as @admin
+    position_id = @member.position.id
+    gold = positions(:gold)
+    post :update_position, user_id: @member, position_id: gold.id
+    assert_not flash.empty?
+    @member.reload
+    assert_not_equal(@member.position.id, position_id)
+    assert_equal(@member.position.id, gold.id)
+  end
+
+  # ===========================================================================
+  # 9. destroy test
   # ===========================================================================
 
   test "should redirect destroy when not logged in" do
