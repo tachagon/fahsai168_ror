@@ -18,7 +18,9 @@ class UserTest < ActiveSupport::TestCase
     assert @user.valid?
   end
 
+  # ==================================================
   # ========== 1. member_code test ==========
+  # ==================================================
 
   test "member_code should be present" do
     @user.member_code = "     "
@@ -47,7 +49,9 @@ class UserTest < ActiveSupport::TestCase
     assert_equal mixed_case_member_code.downcase, @user.reload.member_code
   end
 
+  # ==================================================
   # ========== 2. f_name test ==========
+  # ==================================================
 
   test "f_name should be present" do
     @user.f_name = "     "
@@ -62,7 +66,9 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.valid?
   end
 
+  # ==================================================
   # ========== 3. l_name test ==========
+  # ==================================================
 
   test "l_name should be present" do
     @user.l_name = "     "
@@ -77,35 +83,45 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.valid?
   end
 
+  # ==================================================
   # ========== 4. address test ==========
+  # ==================================================
 
   test "address should not be too long" do
     @user.address = "a" * 256
     assert_not @user.valid?
   end
 
+  # ==================================================
   # ========== 5. city test ==========
+  # ==================================================
 
   test "city should not be too long" do
     @user.city = "a" * 256
     assert_not @user.valid?
   end
 
+  # ==================================================
   # ========== 6. state test ==========
+  # ==================================================
 
   test "state should not be too long" do
     @user.state = "a" * 256
     assert_not @user.valid?
   end
 
+  # ==================================================
   # ========== 6. postal_code test ==========
+  # ==================================================
 
   test "postal_code should not be too long" do
     @user.postal_code = "a" * 11
     assert_not @user.valid?
   end
 
+  # ==================================================
   # ========== 8. phone test ==========
+  # ==================================================
 
   test "phone should be present" do
     @user.phone = "     "
@@ -137,14 +153,18 @@ class UserTest < ActiveSupport::TestCase
     assert @user.valid?
   end
 
+  # ==================================================
   # ========== 9. line test ==========
+  # ==================================================
 
   test "line should not be too long" do
     @user.line = "a" * 51
     assert_not @user.valid?
   end
 
+  # ==================================================
   # ========== 10. role test ==========
+  # ==================================================
 
   test "role should be present" do
     @user.role = "     "
@@ -174,7 +194,9 @@ class UserTest < ActiveSupport::TestCase
     assert_equal(@user.role, "member")
   end
 
+  # ==================================================
   # ========== 11. position test ==========
+  # ==================================================
 
   test "position should be present" do
     @user.position = nil
@@ -186,7 +208,9 @@ class UserTest < ActiveSupport::TestCase
     assert_equal(@user.position.name, "no position")
   end
 
+  # ==================================================
   # ========== 12. iden_num test ==========
+  # ==================================================
 
   test "iden_num should be present" do
     @user.iden_num = "     "
@@ -244,7 +268,9 @@ class UserTest < ActiveSupport::TestCase
     assert_not duplicate_user.valid?
   end
 
+  # ==================================================
   # ========== 13. email test ==========
+  # ==================================================
 
   test "email should not be too long" do
     @user.email = "a" * 244 + "@example.com"
@@ -283,7 +309,9 @@ class UserTest < ActiveSupport::TestCase
     assert_equal mixed_case_email.downcase, @user.reload.email
   end
 
+  # ==================================================
   # ========== 14. password test ==========
+  # ==================================================
 
   test "password should be present (nonblank)" do
     @user.password = @user.password_confirmation = "" * 6
@@ -308,10 +336,48 @@ class UserTest < ActiveSupport::TestCase
   #   assert_equal(@user.reload.password, password)
   # end
 
+  # ==================================================
   # ========== 15. authenticated? test ==========
+  # ==================================================
 
   test "authenticated? should return false for a user with nil digest" do
     assert_not @user.authenticated?('')
+  end
+
+  # ==================================================
+  # ========== 16. relation test
+  # ==================================================
+
+  test "should sponser a user" do
+    admin = users(:admin)
+    member = users(:member)
+    assert_not admin.sponser?(member)
+    assert_difference "Relation.count", 1 do
+      admin.sponser(member)
+    end
+    assert admin.sponser?(member)
+    assert_equal(member.upline, admin)
+
+    # can not sponsered duplicate
+    stock = users(:stock)
+    assert_no_difference "Relation.count" do
+      stock.sponser(member)
+    end
+    assert_not stock.sponser?(member)
+    assert_not_equal(member.upline, stock)
+
+    # can sponser many user
+    assert_difference "Relation.count", 1 do
+      admin.sponser(stock)
+    end
+    assert admin.sponser?(stock)
+    assert_equal(stock.upline, admin)
+    #
+    #        admin
+    #       /     \
+    #      /       \
+    #     /         \
+    #   member     stock
   end
 
 end

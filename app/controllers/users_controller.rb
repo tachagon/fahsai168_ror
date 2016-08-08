@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   include UsersHelper
 
   before_action :logged_in_user
-  before_action :find_user, only: [:show, :edit, :update, :destroy]
+  before_action :find_user, only: [:show, :edit, :update, :destroy, :update_role, :update_position]
   before_action :correct_user_or_admin, only: [:edit, :update]
   # before_action :not_member_user, only: [:new, :create]
   before_action :empty_email, only: [:create, :update]
@@ -45,7 +45,6 @@ class UsersController < ApplicationController
   end
 
   def update_role
-    @user = User.find_by_id(params[:user_id])
     if @user.update_attributes(user_role_params)
       flash[:success] = 'อัปเดทบทบาทสำเร็จ'
       redirect_to users_path
@@ -56,7 +55,6 @@ class UsersController < ApplicationController
   end
 
   def update_position
-    @user = User.find_by_id(params[:user_id])
     if @user.update_attributes(user_position_id_params)
       flash[:success] = 'อัปเดทตำแหน่งสำเร็จ'
       redirect_to users_path
@@ -120,7 +118,7 @@ class UsersController < ApplicationController
     end
 
     def find_user
-      @user = User.find_by_id(params[:id])
+      @user = User.find_by_id(params[:id]) || User.find_by_id(params[:user_id])
       redirect_to root_path if @user.nil?
     end
 

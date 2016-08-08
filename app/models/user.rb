@@ -4,14 +4,30 @@ class User < ActiveRecord::Base
   after_initialize :set_default_role, if: :new_record?
   after_initialize :set_default_position, if: :new_record?
 
+  # ==================================================
+  # Relation
+  # ==================================================
+
   belongs_to :position
 
+  has_many :active_relation, class_name: "Relation", foreign_key: "sponser_id", dependent: :destroy
+  has_one :passive_relation, class_name: "Relation", foreign_key: "sponsered_id", dependent: :destroy
+  has_many :downline, through: :active_relation, source: :sponsered
+  has_one :upline, through: :passive_relation, source: :sponser
+
   attr_accessor :remember_token
+
+  # ==================================================
+  # before save
+  # ==================================================
 
   before_save{email.downcase! unless email.nil?}
   before_save{member_code.downcase!}
   before_save{role.downcase!}
 
+  # ==================================================
+  # validates
+  # ==================================================
 
   validates :member_code,
           presence: true,
@@ -47,6 +63,10 @@ class User < ActiveRecord::Base
         format: {with: VALID_PHONE_REGEX}
 
   validates :line, length: {maximum: 50}
+
+  # ==================================================
+  # public function
+  # ==================================================
 
   def self.all_role ; %w[admin mobile stock member] ; end
   validates :role, presence: true, inclusion: {in: User.all_role}, allow_nil: true
@@ -94,6 +114,18 @@ class User < ActiveRecord::Base
       return false
     end
   end
+
+  def sponser(other_user)
+    active_relation.create(sponsered_id: other_user.id)
+  end
+
+  def sponser?(other_user)
+    downline.include?(other_user)
+  end
+
+  # ==================================================
+  # private function
+  # ==================================================
 
   private
 
