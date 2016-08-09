@@ -29,4 +29,5 @@
       .panel-heading
         %h3.panel-title.center ข้อมูลโปรไฟล์
       .panel-body
-        = render 'form'
+        = form_for @user, html: {class: "form-horizontal"} do |f|
+          = render partial: 'form', locals: {f: f}

@@ -2,7 +2,15 @@
 - provide(:user_form_button_text, "เพิ่มสมาชิกใหม่")
 
 .container
+
+  = gen_breadcrumb({"หน้าแรก" => root_path, "สมาชิกทั้งหมด" => users_path, "เพิ่มสมาชิกใหม่" => "active"})
+
+  .page-header
+    %h1
+      เพิ่มสมาชิกใหม่
+
   .col-sm-8.col-sm-offset-2
     .panel.panel-default
       .panel-body
-        = render 'form'
+        = form_for @user, html: {class: "form-horizontal"} do |f|
+          = render partial: 'form', locals: {f: f}
