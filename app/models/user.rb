@@ -64,10 +64,6 @@ class User < ActiveRecord::Base
 
   validates :line, length: {maximum: 50}
 
-  # ==================================================
-  # public function
-  # ==================================================
-
   def self.all_role ; %w[admin mobile stock member] ; end
   validates :role, presence: true, inclusion: {in: User.all_role}, allow_nil: true
 
@@ -77,6 +73,10 @@ class User < ActiveRecord::Base
     validates :password, presence: true, length: {minimum: 4}, allow_nil: true
 
   # validate :set_default_password
+
+  # ==================================================
+  # public function
+  # ==================================================
 
   # Returns the hash digest of the given string.
   def self.digest(string)
@@ -122,6 +122,12 @@ class User < ActiveRecord::Base
   def sponser?(other_user)
     downline.include?(other_user)
   end
+
+  # ==================================================
+  # scope
+  # ==================================================
+
+  scope :search, -> (attr, query){where("#{attr} LIKE \'%#{query.split(//).join('%')}%\'")}
 
   # ==================================================
   # private function

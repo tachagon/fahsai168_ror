@@ -1,0 +1,7 @@
+.form-group
+  = select_tag 'attr', options_for_select([["รหัสสมาชิก", "member_code"], ["ชื่อ", "f_name"], ["นามสกุล", "l_name"]], "member_code"), class: 'form-control'
+
+  = text_field_tag 'query', nil, class: "form-control"
+  %button{class: "btn btn-default", id: "btn_search_sponser"}
+    %i.fa.fa-search
+

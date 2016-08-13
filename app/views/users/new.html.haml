@@ -1,16 +1,52 @@
 - provide(:title, "เพิ่มสมาชิกใหม่")
 - provide(:user_form_button_text, "เพิ่มสมาชิกใหม่")
+- provide(:search_attr, "member_code")
+- provide(:search_title, "รหัสสมาชิกของผู้แนะนำ")
 
 .container
 
-  = gen_breadcrumb({"หน้าแรก" => root_path, "สมาชิกทั้งหมด" => users_path, "เพิ่มสมาชิกใหม่" => "active"})
+  - if current_user.is_admin?
+    = gen_breadcrumb({"หน้าแรก" => root_path, "สมาชิกทั้งหมด" => users_path, "เพิ่มสมาชิกใหม่" => "active"})
+  - else
+    = gen_breadcrumb({"หน้าแรก" => root_path, "แผนผังองค์กร" => user_chart_path(current_user), "เพิ่มสมาชิกใหม่" => "active"})
 
   .page-header
     %h1
       เพิ่มสมาชิกใหม่
 
+  - if @sponser
+    .col-sm-8.col-sm-offset-2
+      .panel.panel-default
+        .panel-heading
+          %h3.panel-title.center ผู้แนะนำ
+        .panel-body
+          -# new sponser
+          -# #search-sponser
+          -#   = form_tag(user_new_sponser_path, method: :post) do
+          -#     = render partial: "form_search"
+
+          = render partial: "relations/form_disabled", locals: {sponser: @sponser}
+          -# %a{:href => "javascript: toggle_search_sponser()", class: "btn btn-default btn-block"}
+          -#   เปลี่ยน
+          -# :javascript
+          -#   $("#search-sponser").hide();
+
+
+
   .col-sm-8.col-sm-offset-2
     .panel.panel-default
+      .panel-heading
+        %h3.panel-title.center ข้อมูลสมาชิกใหม่
       .panel-body
         = form_for @user, html: {class: "form-horizontal"} do |f|
-          = render partial: 'form', locals: {f: f}
+          = render partial: 'form', locals: {f: f, sponser: @sponser}
+
+-# :javascript
+-#   $(#toggle-search-sponser).click(function(){
+-#     $("form#search-sponser").toggle();
+-#   });
+:javascript
+  var toggle_search_sponser = function (){
+    $("#search-sponser").toggle("slow");
+  }
+

@@ -12,7 +12,16 @@ Rails.application.routes.draw do
   resources :users do
     post 'update_role' => 'users#update_role'
     post 'update_position' => 'users#update_position'
+
+    get 'chart' => 'users#chart'
   end
+
+  resources :relations, only: [:new, :create, :edit, :update, :destroy]
+
+  # post 'users/new_sponser' => 'users#new_sponser', as: 'user_new_sponser'
+  # post 'users/edit_sponser' => 'users#edit_sponser', as: 'user_edit_sponser'
+  post 'users/search/user/:attr' => 'users#search_user', as: 'search_user'
+  post 'users/search/users' => 'users#search_users', as: 'search_users'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

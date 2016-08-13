@@ -1,4 +1,6 @@
 - provide(:title, "#{@user.f_name} #{@user.l_name}")
+- provide(:search_attr, "member_code")
+- provide(:search_title, "รหัสสมาชิกของผู้แนะนำ")
 
 .container
   -# breadcrumb
@@ -49,10 +51,45 @@
             -# show line id
             %p= "Line ID : #{@user.line}"
 
-    -# position
+
     .col-md-6
-      .panel.panel-default
-        .panel-heading
-          %h3.panel-title.center ตำแหน่ง
-        .panel-body
-          %h2.center= @user.position.name.capitalize
+      -# position
+      .col-md-12
+        .panel.panel-default
+          .panel-heading
+            %h3.panel-title.center ตำแหน่ง
+          .panel-body
+            %h2.center= @user.position.name.capitalize
+
+      -# sponser
+      .col-md-12
+        .panel.panel-default
+          .panel-heading
+            %h3.panel-title.center ผู้แนะนำ
+          .panel-body
+
+            - if @user.upline
+              = render partial: "relations/form_disabled", locals: {sponser: @user.upline}
+            - else
+              %p.center ไม่มีผู้แนะนำ
+
+            - if current_user.is_admin?
+              - if @user.upline
+                .col-xs-6
+                  %a.btn.btn-default.btn-block{:href => edit_relation_path(Relation.find_by("sponsered" => @user))}
+                    %i.fa.fa-pencil
+                    แก้ไข
+                .col-xs-6
+                  %a.btn.btn-danger.btn-block{:href => relation_path(Relation.find_by("sponsered" => @user)), data: {method: 'delete'}}
+                    %i.fa.fa-trash
+                    ลบ
+              - else
+                %a.btn.btn-primary.btn-block{:href => new_relation_path(sponsered_id: @user.id)}
+                  %i.fa.fa-plus
+                  เพิ่มผู้แนะนำ
+
+:javascript
+  $("#search-sponser").hide();
+  var toggle_search_sponser = function (){
+    $("#search-sponser").toggle("slow");
+  }

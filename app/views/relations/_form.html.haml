@@ -1,0 +1,38 @@
+#select_sponser.ul.left
+
+:javascript
+
+  var handle_result = function(data){
+    var html = "<h4>เลือกผู้แนะนำ</h4>";
+    for(var i=0; i < data.length; i++){
+      html += "<li>"
+      html += "<label>"
+      html += "<input type='radio' name='sponser_id' value=" + "\'" + data[i]["id"] + "\'" + ">"
+      html += "รหัสสมาชิก " + data[i]["member_code"] + " คุณ" + data[i]["f_name"] + " " + data[i]["l_name"]
+      html += "</label>"
+      html += "</li>"
+    }
+    if(data.length <= 0){
+      html = "<p class='center'>ไม่พบสมาชิก</p>";
+    }else{
+      html += "<button type='submit' class='btn btn-primary btn-block'>บันทึกผู้แนะนำ</button>"
+    }
+
+    document.getElementById("select_sponser").innerHTML = html;
+    $("#query").val("");
+  }
+
+  var handle_form = function(){
+    var attr = $("#attr").val();
+    var query = $("#query").val();
+    $.ajax({
+      type: "POST",
+      url: "/users/search/users?attr=" + attr + "&query=" + query,
+      dataType: "json",
+      success: function(data){handle_result(data)}
+    });
+  }
+
+  $(document).ready(function(){
+    $("#btn_search_sponser").click(handle_form);
+  });

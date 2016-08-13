@@ -15,12 +15,13 @@
 
 <div class="container-fluid">
   <div class="row">
-
     <%= render 'layouts/alert' %>
+  </div>
+  <div class="row">
     <%= yield %>
-
   </div>
   <!-- ./row -->
+  <%= debug(params) if Rails.env.development? %>
 </div>
 <!-- ./container-fluid -->
 

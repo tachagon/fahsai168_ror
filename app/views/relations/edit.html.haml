@@ -1,0 +1,21 @@
+- provide(:title, "แก้ไขผู้แนะนำ")
+
+.container
+  .page-header
+    %h1
+      แก้ไขผู้แนะนำ
+
+  .center
+    %h4 ค้นหาผู้แนะนำ
+    .form-inline
+      = render partial: 'users/form_search_users'
+
+  = form_tag(@relation, method: :put) do
+    .col-sm-6.col-sm-offset-3
+      = render partial: 'form'
+
+  .row
+    .col-xs-6.col-xs-offset-3.center
+      %p
+        %a{:href => user_path(@relation.sponsered)}
+          ยกเลิก

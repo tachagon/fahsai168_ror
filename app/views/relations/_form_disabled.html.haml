@@ -1,0 +1,10 @@
+%form.form-horizontal
+  .form-group
+    = label_tag "รหัสสมาชิก", nil, class: "col-md-3 control-label"
+    .col-md-9
+      = text_field_tag 'sponser_member_code', sponser.member_code, disabled: true, class: "form-control"
+
+  .form-group
+    = label_tag "ชื่อ นามสกุล", nil, class: "col-md-3 control-label"
+    .col-md-9
+      = text_field_tag 'sponser_name', "คุณ#{sponser.f_name} #{sponser.l_name}", disabled: true, class: "form-control"

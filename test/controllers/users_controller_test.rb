@@ -117,7 +117,7 @@ class UsersControllerTest < ActionController::TestCase
       }
     end
     new_user = User.last
-    assert_redirected_to user_url(new_user)
+    assert_redirected_to new_relation_url(sponsered_id: new_user.id)
   end
 
   test "should redirect create when fill form with email" do
@@ -134,7 +134,7 @@ class UsersControllerTest < ActionController::TestCase
       }
     end
     new_user = User.last
-    assert_redirected_to user_url(new_user)
+    assert_redirected_to new_relation_url(sponsered_id: new_user.id)
     assert_equal(new_user.email, email)
   end
 

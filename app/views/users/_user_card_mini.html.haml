@@ -1,0 +1,15 @@
+%a{:href => user_chart_path(user)}
+  .panel.panel-default
+    .panel-body
+      .gravatar-mini
+        = gravatar_for user, {size: 300}
+      .information.center
+        .member_code.hidden-xs= "รหัส : #{user.member_code}"
+        .name
+          %span= "คุณ#{user.f_name}"
+          %span.hidden-xs= user.l_name
+          %a{:href => user_path(user), class: "btn btn-info btn-xs"}
+            %i.fa.fa-eye
+
+:javascript
+  $(".gravatar-mini img").addClass("img-responsive");

@@ -1,6 +1,10 @@
 
 = render 'shared/error_messages', object: f.object
 
+-# sponser
+- if sponser
+  = hidden_field_tag 'sponser_id', sponser.id
+
 -# fill member code
 .form-group
   = f.label :member_code, class: "col-md-3 control-label required"

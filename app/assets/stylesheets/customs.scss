@@ -7,10 +7,10 @@
   background-color: #fff;
 }
 
-// .gravatar {
-//   padding: 0;
-//   margin: 0;
-// }
+.gravatar {
+  padding: 0;
+  margin: 0;
+}
 
 .center {
   text-align: center;
@@ -21,10 +21,25 @@
   margin-top: 0;
 }
 
+.left {
+  text-align: left;
+}
+
 #error_explanation {
   ul {
     list-style: none;
     display: block;
     color: red;
+  }
+}
+
+#select_sponser {
+  list-style-type: none;
+  li {
+    display: block;
+    margin-top: 10px;
+    border-style: solid;
+    border-width: 0 0 1px 0;
+    border-color: gray;
   }
 }

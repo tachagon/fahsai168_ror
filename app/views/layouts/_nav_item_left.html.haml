@@ -1,11 +1,9 @@
 - if logged_in?
-  %li
-    %a.nav-link{:href => "#"}
-      Link
-      %span.sr-only
 
   %li
-    %a{:href => "#"} Link
+    %a{:href => user_chart_path(current_user)}
+      %i.fa.fa-users
+      แผนผังองค์กร
 
   %li.dropdown
     %a.dropdown-toggle{:href => "#", data: {toggle: "dropdown"}, role: "button", aria: {haspopup: "true", expanded:"false"}}
